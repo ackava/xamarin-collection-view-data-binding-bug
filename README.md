@@ -1,0 +1,1 @@
+# xamarin-collection-view-data-binding-bug
