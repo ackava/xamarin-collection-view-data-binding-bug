@@ -9,12 +9,8 @@
         <Grid>
             <CollectionView
                 ItemsSource="{Binding Items}"
+                ItemTemplate="{Binding Template}"
                 >
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <Label Text="{Binding Label}"/>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
             </CollectionView>
         </Grid>
   </ContentView.Content>

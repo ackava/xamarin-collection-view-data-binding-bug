@@ -25,11 +25,7 @@ namespace CollectionViewBug
     {
         public PopupViewModel()
         {
-            Device.BeginInvokeOnMainThread(async () => {
-
-                await Task.Delay(1000);
-
-                this.Items = new List<Item> {
+            this.Items = new List<Item> {
                     new Item
                     {
                         Label = "1",
@@ -41,9 +37,51 @@ namespace CollectionViewBug
                         Value = "2"
                     }
                 };
-            
+
+            Device.BeginInvokeOnMainThread(async () =>
+            {
+
+                await Task.Delay(1000);
+
+                this.Template = new DataTemplate(() => {
+                    Label label = new Label();
+                    label.BindingContextChanged += (s, e) =>
+                    {
+                        label.Text = ((Item)label.BindingContext).Label;
+                    };
+                    return label;
+                }); ;
+
             });
+
+
         }
+
+        private DataTemplate dataTemplate;
+
+        public DataTemplate Template
+        {
+            get { return dataTemplate; }
+            set {
+                dataTemplate = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Template)));
+            }
+        }
+
+
+        //public DataTemplate Template
+        //{
+        //    get
+        //    {
+        //        return new DataTemplate(() => {
+        //            Label label = new Label();
+        //            label.BindingContextChanged += (s, e) => {
+        //                label.Text = ((Item)label.BindingContext).Label;
+        //            };
+        //            return label;
+        //        });
+        //    }
+        //}
 
         public event PropertyChangedEventHandler PropertyChanged;
 
